@@ -1,74 +1,65 @@
 
 package Modelo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Dialogo {
-    // =======================
-    // 🔒 Atributos privados
-    // =======================
-    private String personaje;
-    private List<String> lineas;
-    private int indiceActual;
 
-    // =======================
-    // 🏗️ Constructor
-    // =======================
-    public Dialogo(String personaje) {
+    // =====================
+    // Atributos
+    // =====================
+    private Personaje personaje;   // Quién habla
+    private String texto;          // Qué dice
+    private String emocion;        // Opcional: emoción del momento (feliz, triste, etc.)
+
+    // =====================
+    // Constructor
+    // =====================
+    public Dialogo(Personaje personaje, String texto, String emocion) {
         this.personaje = personaje;
-        this.lineas = new ArrayList<>();
-        this.indiceActual = 0;
+        this.texto = texto;
+        this.emocion = emocion;
     }
 
-    // =======================
-    // ⚙️ Métodos públicos
-    // =======================
-    /** Agrega una nueva línea de diálogo */
-    public void agregarLinea(String texto) {
-        lineas.add(texto);
+    // Sobrecarga si no hay emoción específica
+    public Dialogo(Personaje personaje, String texto) {
+        this(personaje, texto, "neutral");
     }
 
-    /** Muestra la siguiente línea del diálogo */
-    public void mostrarSiguienteLinea() {
-        if (indiceActual < lineas.size()) {
-            System.out.println(personaje + ": " + lineas.get(indiceActual));
-            indiceActual++;
-        } else {
-            System.out.println("Fin del diálogo.");
-        }
+    // =====================
+    // Métodos
+    // =====================
+
+    /**
+     * Devuelve el texto del diálogo formateado con el nombre del personaje.
+     */
+    public String mostrarDialogo() {
+        return personaje.hablar(texto);
     }
 
-    /** Reinicia el diálogo desde el inicio */
-    public void reiniciar() {
-        indiceActual = 0;
-    }
+    // =====================
+    // Getters y Setters
+    // =====================
 
-    /** Devuelve true si aún hay líneas por mostrar */
-    public boolean hayMasLineas() {
-        return indiceActual < lineas.size();
-    }
-
-    // =======================
-    // 🔁 Getters y Setters
-    // =======================
-    public String getPersonaje() {
+    public Personaje getPersonaje() {
         return personaje;
     }
 
-    public void setPersonaje(String personaje) {
+    public void setPersonaje(Personaje personaje) {
         this.personaje = personaje;
     }
 
-    public List<String> getLineas() {
-        return lineas;
+    public String getTexto() {
+        return texto;
     }
 
-    public void setLineas(List<String> lineas) {
-        this.lineas = lineas;
+    public void setTexto(String texto) {
+        this.texto = texto;
     }
 
-    public int getIndiceActual() {
-        return indiceActual;
+    public String getEmocion() {
+        return emocion;
+    }
+
+    public void setEmocion(String emocion) {
+        this.emocion = emocion;
     }
 }
