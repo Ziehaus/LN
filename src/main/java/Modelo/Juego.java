@@ -80,14 +80,6 @@ public class Juego {
             System.out.println("🏁 Fin del juego.");
         }
     }
-
-    /** Inicia un minijuego (si aplica) */
-    public void iniciarMinijuego(Minijuego mini) {
-        enMinijuego = true;
-        mini.empezar();
-        enMinijuego = false;
-    }
-
     /** Agrega una pista al inventario */
     public void agregarPista(String pista) {
         inventarioPistas.agregarPista(pista);

@@ -9,7 +9,6 @@ public abstract class EscenaBase implements IEscena {
     protected String fondo;
     protected String musicaFondo;
     protected String efectoSonido;
-    protected Minijuego minijuegoAsociado;
 
     // Constructor
     public EscenaBase(String titulo, String dialogo, String fondo, String musicaFondo, String efectoSonido) {
@@ -18,7 +17,6 @@ public abstract class EscenaBase implements IEscena {
         this.fondo = fondo;
         this.musicaFondo = musicaFondo;
         this.efectoSonido = efectoSonido;
-        this.minijuegoAsociado = null;
     }
 
     // Métodos comunes
@@ -45,17 +43,6 @@ public abstract class EscenaBase implements IEscena {
         }
     }
 
-    @Override
-    public void iniciarMinijuego() {
-        if (minijuegoAsociado != null) {
-            minijuegoAsociado.empezar();
-        } else {
-            System.out.println("No hay minijuego asociado.");
-        }
-    }
 
-    public void asignarMinijuego(Minijuego mini) {
-        this.minijuegoAsociado = mini;
-    }
 }
 

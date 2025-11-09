@@ -6,5 +6,4 @@ public interface IEscena {
     void mostrarEscena();
     void reproducirMusica();
     void reproducirEfecto();
-    void iniciarMinijuego();
 }
