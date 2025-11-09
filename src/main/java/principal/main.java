@@ -35,7 +35,7 @@ public class main {
                 dialogosIntro,
                 List.of(sei, kyoko)
         );
-
+        
         // =====================
         // Crear lista de escenas
         // =====================
@@ -56,12 +56,17 @@ public class main {
         // Avanzar diálogos manualmente
         // =====================
         EscenaDialogo escenaActual = (EscenaDialogo) escenas.get(0);
+        
+        
 
         // Avanzar paso a paso
         escenaActual.siguienteDialogo();
         escenaActual.siguienteDialogo();
         escenaActual.siguienteDialogo();
         escenaActual.siguienteDialogo(); // Intentar avanzar más allá del final
+        // Avanzar a la siguiente escena (la de decisión)
+                    
+        
 
         // =====================
         // Probar inventario
@@ -70,3 +75,4 @@ public class main {
         juego.getInventarioPistas().mostrarPistas();
     }
 }
+//zd
