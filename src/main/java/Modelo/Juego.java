@@ -1,17 +1,16 @@
 package Modelo;
 
-
 import java.util.List;
+import java.util.Scanner;
 
 public class Juego {
 
-    // =====================
-    // Atributos
-    // =====================
     private String titulo;
-    private List<EscenaBase> escenas;     // Lista de escenas del juego
-    private int indiceEscenaActual;       // Controla en qué escena se encuentra
-    private Inventario inventarioPistas;  // Podría almacenar objetos, pistas o estados
+    private List<EscenaBase> escenas;
+    private int escenaActual;
+    private Inventario inventario;
+
+    private Scanner scanner = new Scanner(System.in);
 
     // =====================
     // Constructor
@@ -19,114 +18,120 @@ public class Juego {
     public Juego(String titulo, List<EscenaBase> escenas) {
         this.titulo = titulo;
         this.escenas = escenas;
-        this.indiceEscenaActual = 0;
-        this.inventarioPistas = new Inventario();
+        this.escenaActual = 0;
+        this.inventario = new Inventario();
     }
 
     // =====================
-    // Métodos públicos
+    // Iniciar el juego
     // =====================
-
-    /**
-     * Inicia el juego desde la primera escena.
-     */
     public void iniciarJuego() {
         System.out.println("=== Iniciando: " + titulo + " ===");
-        if (!escenas.isEmpty()) {
-            escenas.get(indiceEscenaActual).mostrarEscena();
-        } else {
-            System.out.println("No hay escenas cargadas.");
-        }
+        mostrarEscenaActual();
     }
 
-    /**
-     * Muestra la escena actual.
-     */
+    // =====================
+    // Mostrar escena actual
+    // =====================
     public void mostrarEscenaActual() {
-        if (indiceEscenaActual < escenas.size()) {
-            escenas.get(indiceEscenaActual).mostrarEscena();
-        } else {
-            System.out.println("No hay más escenas en el juego.");
+        EscenaBase escena = escenas.get(escenaActual);
+        escena.mostrarEscena();
+
+        // Si es una escena de diálogo → permitir avanzar
+        if (escena instanceof EscenaDialogo) {
+            manejarDialogo((EscenaDialogo) escena);
+        }
+
+        // Si es una escena de decisión → permitir seleccionar
+        else if (escena instanceof EscenaDecision) {
+            manejarDecision((EscenaDecision) escena);
         }
     }
 
-    /**
-     * Avanza a la siguiente escena.
-     */
+    // =====================
+    // MANEJO DE DIÁLOGOS
+    // =====================
+    private void manejarDialogo(EscenaDialogo e) {
+        boolean continuar = true;
+
+        while (continuar) {
+            System.out.println("\n[ENTER] para continuar...");
+            scanner.nextLine();
+
+            if (e.avanzarDialogo()) {
+                e.mostrarDialogoActual();
+            } else {
+                continuar = false;
+            }
+        }
+
+        siguienteEscena();
+    }
+
+    // =====================
+    // MANEJO DE DECISIONES
+    // =====================
+    private void manejarDecision(EscenaDecision e) {
+
+        System.out.println("\nElige una opción:");
+        int opcion = leerOpcion(e.getOpciones().size());
+
+        // Cambiar a la escena correspondiente
+        cambiarEscena(escenaActual + opcion);
+
+        mostrarEscenaActual();
+    }
+
+    // =====================
+    // Cambiar a una escena específica
+    // =====================
+    public void cambiarEscena(int indice) {
+        if (indice >= 0 && indice < escenas.size()) {
+            escenaActual = indice;
+        } else {
+            System.out.println("Escena no válida, regresando al inicio.");
+            escenaActual = 0;
+        }
+    }
+
+    // =====================
+    // Ir a la siguiente escena
+    // =====================
     public void siguienteEscena() {
-        if (indiceEscenaActual < escenas.size() - 1) {
-            indiceEscenaActual++;
+        if (escenaActual < escenas.size() - 1) {
+            escenaActual++;
             mostrarEscenaActual();
         } else {
-            System.out.println("Has completado todas las escenas.");
+            System.out.println("Fin del juego.");
         }
     }
 
-    /**
-     * Reinicia el juego desde la primera escena.
-     */
-    public void reiniciarJuego() {
-        indiceEscenaActual = 0;
-        System.out.println("Juego reiniciado.");
-        iniciarJuego();
+    // =====================
+    // LEER OPCIÓN SEGURA
+    // =====================
+    private int leerOpcion(int max) {
+        int opcion = -1;
+
+        while (opcion < 1 || opcion > max) {
+            System.out.print("→ ");
+            try {
+                opcion = Integer.parseInt(scanner.nextLine());
+            } catch (Exception e) {
+                opcion = -1;
+            }
+
+            if (opcion < 1 || opcion > max) {
+                System.out.println("Opción inválida, intenta de nuevo.");
+            }
+        }
+
+        return opcion;
     }
 
     // =====================
-    // Getters y Setters
+    // Getter inventario
     // =====================
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public List<EscenaBase> getEscenas() {
-        return escenas;
-    }
-
-    public void setEscenas(List<EscenaBase> escenas) {
-        this.escenas = escenas;
-    }
-
-    public int getIndiceEscenaActual() {
-        return indiceEscenaActual;
-    }
-
-    public void setIndiceEscenaActual(int indiceEscenaActual) {
-        this.indiceEscenaActual = indiceEscenaActual;
-    }
-
-    public Inventario getInventarioPistas() {
-        return inventarioPistas;
-    }
-
-    public void setInventarioPistas(Inventario inventarioPistas) {
-        this.inventarioPistas = inventarioPistas;
+    public Inventario getInventario() {
+        return inventario;
     }
 }
-
-
-        
-     
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
