@@ -23,7 +23,7 @@ public class ControladorJuego {
     // -------------------------------------------------------
     // MOSTRAR ESCENAS
     // -------------------------------------------------------
-    private void mostrarEscenaActual() {
+    public void mostrarEscenaActual() {
 
         IEscena escena = juego.getEscenaActual();
 

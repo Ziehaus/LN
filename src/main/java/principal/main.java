@@ -1,8 +1,5 @@
 package principal;
 
-import Modelo.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class main {
 
