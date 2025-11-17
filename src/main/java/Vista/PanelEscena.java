@@ -4,10 +4,32 @@
  */
 package Vista;
 
-/**
- *
- * @author kurob
- */
-public class PanelEscena {
-    
+import ControladorJuego.*;
+import javax.swing.*;
+import java.awt.*;
+
+
+public class PanelEscena extends JPanel {
+private ControladorJuego controlador;
+
+
+public PanelEscena(ControladorJuego controlador) {
+this.controlador = controlador;
+setLayout(null);
+setBackground(Color.BLACK);
+}
+
+
+@Override
+protected void paintComponent(Graphics g) {
+super.paintComponent(g);
+if (controlador != null && controlador.getEscenaActual() != null) {
+controlador.getEscenaActual().dibujar(g, this);
+}
+}
+
+
+public void actualizar() {
+repaint();
+}
 }

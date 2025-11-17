@@ -1,16 +1,34 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
 
 package Vista;
 
-/**
- *
- * @author kurob
- */
-public class VentanaPrincipal {
+import ControladorJuego.*;
+import javax.swing.*;
+import java.awt.*;
 
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
+
+public class VentanaPrincipal extends JFrame {
+        private PanelEscena panelEscena;
+        private ControladorJuego controlador;
+
+
+    public VentanaPrincipal(ControladorJuego controlador) {
+    this.controlador = controlador;
+    setTitle("Visual Novel");
+    setSize(900, 600);
+    setLocationRelativeTo(null);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setLayout(new BorderLayout());
+
+
+    panelEscena = new PanelEscena(controlador);
+    add(panelEscena, BorderLayout.CENTER);
+
+
+    setVisible(true);
     }
-}
+
+
+    public void actualizar() {
+    panelEscena.actualizar();
+    }
+    }

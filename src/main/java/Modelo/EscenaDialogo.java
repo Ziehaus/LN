@@ -5,46 +5,35 @@ import java.util.List;
 public class EscenaDialogo extends EscenaBase {
 
     private List<Dialogo> dialogos;
-    private List<Personaje> personajes;
-    private int indiceDialogoActual;
+    private int indiceActual = 0;
 
-    public EscenaDialogo(String titulo, String fondo, String musicaFondo,
-                         String efectoSonido, List<Dialogo> dialogos,
-                         List<Personaje> personajes) {
-
-        super(titulo, "", fondo, musicaFondo, efectoSonido);  // descripción vacía
+    public EscenaDialogo(String id, String descripcion, List<Dialogo> dialogos) {
+        super(id, descripcion);
         this.dialogos = dialogos;
-        this.personajes = personajes;
-        this.indiceDialogoActual = 0;
     }
 
     @Override
-    public void mostrarEscena() {
-        System.out.println("=== Escena de Diálogo: " + titulo + " ===");
-        System.out.println("Fondo: " + fondo);
-        reproducirMusica();
-        reproducirEfecto();
-        mostrarDialogoActual();
+    public TipoEscena getTipo() {
+        return TipoEscena.DIALOGO;
     }
 
-    public void mostrarDialogoActual() {
-        if (indiceDialogoActual < dialogos.size()) {
-            Dialogo d = dialogos.get(indiceDialogoActual);
-            System.out.println(d.getPersonaje().hablar(d.getTexto()));
-        } else {
-            System.out.println("Fin de los diálogos.");
-        }
+    public Dialogo getDialogoActual() {
+        return dialogos.get(indiceActual);
     }
 
-    public boolean avanzarDialogo() {
-        if (indiceDialogoActual < dialogos.size() - 1) {
-            indiceDialogoActual++;
+    /**
+     * Avanza 1 diálogo.
+     * @return true si quedan más diálogos, false si la escena terminó.
+     */
+    public boolean avanzar() {
+        if (indiceActual < dialogos.size() - 1) {
+            indiceActual++;
             return true;
         }
-        return false; // no hay más
+        return false;
     }
 
     public void reiniciar() {
-        indiceDialogoActual = 0;
+        indiceActual = 0;
     }
 }
