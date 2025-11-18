@@ -44,7 +44,7 @@ public class VentanaInicio extends JFrame {
         setContentPane(panelFondo);
 
         // TÍTULO o LOGO
-        JLabel titulo = new JLabel("Mi Visual Novel", SwingConstants.CENTER);
+        JLabel titulo = new JLabel("Visual Novel", SwingConstants.CENTER);
         titulo.setFont(new Font("Georgia", Font.BOLD, 36));
         titulo.setForeground(Color.WHITE);
         titulo.setBounds(0, 40, getWidth(), 50);
