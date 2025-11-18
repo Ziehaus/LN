@@ -15,9 +15,10 @@ public class CargadorEscenas {
 
         // ---------- ESCENA 1: DIÁLOGO ----------
         List<Dialogo> dialogos = new ArrayList<>();
-        dialogos.add(new Dialogo(prota, "¿Dónde estoy...?", "triste"));
+        dialogos.add(new Dialogo(prota, "Click to start", "...."));
+        dialogos.add(new Dialogo(prota, "¿Dónde estoy...?", null));
         dialogos.add(new Dialogo(faris, "Despierta, finalmente llegaste.", null));
-        dialogos.add(new Dialogo(prota, "¿Faris? ¿Qué está pasando?", "neutral"));
+        dialogos.add(new Dialogo(prota, "¿Faris? ¿Qué está pasando?", "confundido"));
         dialogos.add(new Dialogo(faris, "Luego te explico, ahora debemos elegir un camino.", null));
 
         EscenaDialogo escenaInicio = new EscenaDialogo(
@@ -49,7 +50,7 @@ public class CargadorEscenas {
 
         EscenaDecision escenaDecision = new EscenaDecision(
                 "escena_decision",
-                "Debes decidir tu destino",
+                "Debes decidir tu camino",
                 opciones
         );
 
@@ -64,7 +65,7 @@ public class CargadorEscenas {
                 "Final bueno",
                 "/img/fondos/fondo2.jpg",
                 List.of(
-                        new Dialogo(faris, "Elegiste bien. Te guiaré a casa.", null)
+                        new Dialogo(faris, "Elegiste bien. Te guiaré a casa.", "feliz")
                 )
         );
         escenas.put("escena_final_buena", finalBueno);

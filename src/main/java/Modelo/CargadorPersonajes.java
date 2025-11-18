@@ -8,9 +8,11 @@ public class CargadorPersonajes {
 
     public static Personaje cargarProtagonista() {
         Map<String, String> emo = new HashMap<>();
-        emo.put("feliz", "/img/emociones/feliz.png");
-        emo.put("neutral", "/img/emociones/neutral.png");
+        emo.put("confundido", "/img/emociones/confundido.png");
+        emo.put("pensando", "/img/emociones/pensando.png");
         emo.put("triste", "/img/emociones/triste.png");
+        emo.put("decidido", "/img/emociones/decidido.png");
+        emo.put("neutral", "/img/emociones/neutral.png");
 
         return new Personaje(
                 "Protagonista",
