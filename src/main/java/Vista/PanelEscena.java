@@ -10,6 +10,7 @@ public class PanelEscena extends JPanel {
     private JLabel lblNombre;
     private JLabel lblImagen;
     private JTextArea txtDialogo;
+    private JScrollPane scrollDialogo;
 
     private JPanel panelDialogo;
     private JPanel panelOpciones;
@@ -18,54 +19,75 @@ public class PanelEscena extends JPanel {
     private JPanel contenedorSur;   // CardLayout para alternar diálogo/decisiones
     private ImageIcon fondoActual;  // Fondo unificado
 
-    public PanelEscena() {
+public PanelEscena() {
 
-        setLayout(new BorderLayout());
+    setLayout(new BorderLayout());
 
-        // ============================================================
-        // FONDO (se dibuja desde paintComponent)
-        // ============================================================
-        fondoActual = null;
+    // ============================================================
+    // FONDO
+    // ============================================================
+    fondoActual = null;
 
-        // ============================================================
-        // PANEL DE DIÁLOGO
-        // ============================================================
-        panelDialogo = new JPanel(new BorderLayout());
-        panelDialogo.setOpaque(false);
+    // ============================================================
+    // PANEL DE DIÁLOGO
+    // ============================================================
+    panelDialogo = new JPanel(new BorderLayout());
+    panelDialogo.setOpaque(false);
 
-        lblNombre = new JLabel("", SwingConstants.LEFT);
-        lblNombre.setFont(new Font("Arial", Font.BOLD, 20));
+    // --- IMAGEN DEL PERSONAJE ---
+    lblImagen = new JLabel();
+    lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
+    panelDialogo.add(lblImagen, BorderLayout.CENTER);
 
-        lblImagen = new JLabel();
-        lblImagen.setHorizontalAlignment(SwingConstants.CENTER);
+    // --- PANEL INFERIOR PARA NOMBRE + TEXTO ---
+    RoundedPanel panelTexto = new RoundedPanel(25, new Color(0, 0, 0, 180));
+    panelTexto.setLayout(new BorderLayout());
+    panelTexto.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
 
-        txtDialogo = new JTextArea();
-        txtDialogo.setEditable(false);
-        txtDialogo.setLineWrap(true);
-        txtDialogo.setWrapStyleWord(true);
-        txtDialogo.setFont(new Font("Arial", Font.PLAIN, 18));
+    // NOMBRE (IZQUIERDA)
+    lblNombre = new JLabel("");
+    lblNombre.setFont(new Font("Georgia", Font.BOLD, 22));
+    lblNombre.setForeground(Color.WHITE);
+    lblNombre.setHorizontalAlignment(SwingConstants.LEFT);
+    panelTexto.add(lblNombre, BorderLayout.NORTH);
 
-        panelDialogo.add(lblNombre, BorderLayout.NORTH);
-        panelDialogo.add(lblImagen, BorderLayout.CENTER);
-        panelDialogo.add(new JScrollPane(txtDialogo), BorderLayout.SOUTH);
+    // TEXTO DEL DIÁLOGO
+    txtDialogo = new JTextArea();
+    txtDialogo.setEditable(false);
+    txtDialogo.setLineWrap(true);
+    txtDialogo.setWrapStyleWord(true);
+    txtDialogo.setFont(new Font("Georgia", Font.PLAIN, 18));
+    txtDialogo.setForeground(Color.WHITE);
+    txtDialogo.setOpaque(false);
 
-        // ============================================================
-        // PANEL DE OPCIONES
-        // ============================================================
-        panelOpciones = new JPanel(new GridLayout(0, 1));
-        panelOpciones.setOpaque(false);
+    // SCROLL PARA EL TEXTO
+    scrollDialogo = new JScrollPane(txtDialogo);
+    scrollDialogo.setOpaque(false);
+    scrollDialogo.getViewport().setOpaque(false);
+    scrollDialogo.setBorder(null);
+    panelTexto.add(scrollDialogo, BorderLayout.CENTER);
 
-        // ============================================================
-        // PANEL SUR CON CARDLAYOUT
-        // ============================================================
-        contenedorSur = new JPanel(new CardLayout());
-        contenedorSur.setOpaque(false);
+    // Añadir el panel de texto al panel de diálogo
+    panelDialogo.add(panelTexto, BorderLayout.SOUTH);
 
-        contenedorSur.add(panelDialogo, "DIALOGO");
-        contenedorSur.add(panelOpciones, "OPCIONES");
+    // ============================================================
+    // PANEL DE OPCIONES
+    // ============================================================
+    panelOpciones = new JPanel(new GridLayout(0, 1));
+    panelOpciones.setOpaque(false);
 
-        add(contenedorSur, BorderLayout.SOUTH);
-    }
+    // ============================================================
+    // CONTENEDOR SUR CON CARDLAYOUT
+    // ============================================================
+    contenedorSur = new JPanel(new CardLayout());
+    contenedorSur.setOpaque(false);
+
+    contenedorSur.add(panelDialogo, "DIALOGO");
+    contenedorSur.add(panelOpciones, "OPCIONES");
+
+    add(contenedorSur, BorderLayout.SOUTH);
+}
+
 
     // ============================================================
     // FONDO
@@ -93,18 +115,26 @@ public class PanelEscena extends JPanel {
     // ============================================================
     public void mostrarDialogo(String nombre, String rutaImagen, String texto, String emocion) {
 
+        // nombre + emoción
         lblNombre.setText(nombre + (emocion != null ? " [" + emocion + "]" : ""));
 
+        // imagen del personaje
         if (rutaImagen != null && !rutaImagen.isEmpty()) {
             lblImagen.setIcon(new ImageIcon(getClass().getResource(rutaImagen)));
         } else {
             lblImagen.setIcon(null);
         }
 
+        // texto del diálogo
         txtDialogo.setText(texto);
 
+        // animación suave
+        fadeInTexto();
+
+        // mostrar panel correcto
         mostrarPanel("DIALOGO");
     }
+
 
     // ============================================================
     // OPCIONES
@@ -128,6 +158,24 @@ public class PanelEscena extends JPanel {
         revalidate();
         repaint();
     }
+    
+        public void fadeInTexto() {
+        txtDialogo.setForeground(new Color(255,255,255,0));
+        Timer timer = new Timer(20, null);
+
+        timer.addActionListener(e -> {
+            Color c = txtDialogo.getForeground();
+            int alpha = c.getAlpha() + 15;
+            if (alpha >= 255) {
+                alpha = 255;
+                timer.stop();
+            }
+            txtDialogo.setForeground(new Color(255, 255, 255, alpha));
+        });
+
+        timer.start();
+    }
+
 
     // ============================================================
     // UTILIDAD MVC PARA CONTROLADOR
@@ -146,6 +194,28 @@ public class PanelEscena extends JPanel {
         CardLayout cl = (CardLayout) contenedorSur.getLayout();
         cl.show(contenedorSur, nombre);
     }
+    
+    class RoundedPanel extends JPanel {
+        
+    private int radius;
+    private Color color;
+
+    public RoundedPanel(int radius, Color bg) {
+        this.radius = radius;
+        this.color = bg;
+        setOpaque(false);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setColor(color);
+        g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
+    }
+}
+
 }
 
 

@@ -46,7 +46,7 @@ public class ControladorJuego {
         // Texto, personaje, emoción
         panel.mostrarDialogo(
                 d.getPersonaje().getNombre(),
-                d.getPersonaje().getImagenBase(),
+                d.getPersonaje().getImagenEmocion(d.getEmocion()),
                 d.getTexto(),
                 d.getEmocion()
         );
