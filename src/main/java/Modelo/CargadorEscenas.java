@@ -26,6 +26,8 @@ public class CargadorEscenas {
                 "/img/fondos/fondo1.jpg",
                 dialogos
         );
+        escenaInicio.musicaFondo = "/audio/musica1.wav";
+        escenaInicio.efectoSonido = "/audio/click.wav";
 
         escenaInicio.setSiguienteEscena("escena_decision");
 

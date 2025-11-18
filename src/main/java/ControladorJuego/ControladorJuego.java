@@ -1,5 +1,4 @@
 package ControladorJuego;
-
 import Modelo.*;
 import Vista.PanelEscena;
 
@@ -26,6 +25,7 @@ public class ControladorJuego {
     public void mostrarEscenaActual() {
 
         IEscena escena = juego.getEscenaActual();
+        aplicarAudio(escena); // ? reproduce música y efectos
 
         switch (escena.getTipo()) {
             case DIALOGO -> mostrarEscenaDialogo((EscenaDialogo) escena);
@@ -89,6 +89,20 @@ public class ControladorJuego {
 
         mostrarEscenaActual();
     }
+    
+        private void aplicarAudio(IEscena escena) {
+        if (escena instanceof EscenaBase base) {
+
+            if (base.getMusicaFondo() != null) {
+                Utils.AudioManager.reproducirMusica(base.getMusicaFondo());
+            }
+
+            if (base.getEfectoSonido() != null) {
+                Utils.AudioManager.reproducirEfecto(base.getEfectoSonido());
+            }
+        }
+    }
+
 
     // Acceso al modelo
     public IEscena getEscenaActual() {

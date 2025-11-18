@@ -51,5 +51,15 @@ public abstract class EscenaBase implements IEscena {
     public String getFondo() {
         return fondo;
     }
+
+    public String getMusicaFondo() {
+        return musicaFondo;
+    }
+
+    public String getEfectoSonido() {
+        return efectoSonido;
+    }
+    
+    
 }
 
