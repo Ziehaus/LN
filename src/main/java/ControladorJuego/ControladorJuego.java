@@ -21,34 +21,38 @@ public class ControladorJuego {
     }
 
     // -------------------------------------------------------
-    // MOSTRAR ESCENAS
+    // MOSTRAR ESCENAS SEGÚN TIPO
     // -------------------------------------------------------
     public void mostrarEscenaActual() {
 
         IEscena escena = juego.getEscenaActual();
 
         switch (escena.getTipo()) {
-
             case DIALOGO -> mostrarEscenaDialogo((EscenaDialogo) escena);
-
             case DECISION -> mostrarEscenaDecision((EscenaDecision) escena);
         }
     }
 
-    // ---------------------- DIALOGO --------------------------
+    // -------------------------------------------------------
+    // ESCENA DE DIÁLOGO
+    // -------------------------------------------------------
     private void mostrarEscenaDialogo(EscenaDialogo escena) {
 
         Dialogo d = escena.getDialogoActual();
 
+        // Fondo
+        panel.mostrarFondo(escena.getFondo());
+
+        // Texto, personaje, emoción
         panel.mostrarDialogo(
                 d.getPersonaje().getNombre(),
-                d.getPersonaje().getRutaImagen(),
+                d.getPersonaje().getImagenBase(),
                 d.getTexto(),
                 d.getEmocion()
         );
     }
 
-    // El jugador hace clic en "Continuar"
+    // Acción cuando el jugador presiona "Continuar"
     public void avanzarDialogo() {
 
         boolean hayMas = juego.avanzarDialogo();
@@ -56,31 +60,41 @@ public class ControladorJuego {
         if (hayMas) {
             mostrarEscenaDialogo((EscenaDialogo) juego.getEscenaActual());
         } else {
-            mostrarEscenaActual(); // cambio de escena automático
+            mostrarEscenaActual(); // Cambio automático a la escena siguiente
         }
     }
 
-    // ---------------------- DECISION --------------------------
+    // -------------------------------------------------------
+    // ESCENA DE DECISIÓN
+    // -------------------------------------------------------
     private void mostrarEscenaDecision(EscenaDecision escena) {
 
         panel.mostrarOpciones(
                 escena.getDescripcion(),
-                escena.getOpciones().stream()
-                        .map(Opcion::getTextoVisible)
-                        .toList()
+                escena.getOpciones().stream().map(Opcion::getTextoVisible).toList()
         );
+
+        // Asignar ActionListeners a cada botón
+        for (int i = 0; i < escena.getOpciones().size(); i++) {
+            final int indice = i; // Necesario porque listeners deben ser final/efectivamente final
+
+            panel.setActionListenerOpcion(i, e -> seleccionarOpcion(indice));
+        }
     }
 
-    // El jugador selecciona una opción
+    // Acción al elegir una opción
     public void seleccionarOpcion(int indice) {
 
         juego.elegirOpcion(indice);
+
         mostrarEscenaActual();
     }
 
-    public Object getEscenaActual() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    // Acceso al modelo
+    public IEscena getEscenaActual() {
+        return juego.getEscenaActual();
     }
 
 }
+
 

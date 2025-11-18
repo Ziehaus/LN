@@ -1,4 +1,3 @@
-
 package Modelo;
 
 public interface IEscena {

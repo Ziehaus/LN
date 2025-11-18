@@ -4,7 +4,7 @@ import java.util.List;
 
 public class EscenaDecision extends EscenaBase {
 
-    private List<Opcion> opciones;
+    private final List<Opcion> opciones;
 
     public EscenaDecision(String id, String descripcion, List<Opcion> opciones) {
         super(id, descripcion);
@@ -20,3 +20,4 @@ public class EscenaDecision extends EscenaBase {
         return opciones;
     }
 }
+

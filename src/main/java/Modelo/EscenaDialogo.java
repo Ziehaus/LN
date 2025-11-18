@@ -4,14 +4,12 @@ import java.util.List;
 
 public class EscenaDialogo extends EscenaBase {
 
-    private List<Dialogo> dialogos;
+    private final List<Dialogo> dialogos;
     private int indiceActual = 0;
 
-    // Nueva: siguiente escena
-    private String siguienteEscenaId;
-
-    public EscenaDialogo(String id, String descripcion, List<Dialogo> dialogos) {
-        super(id, descripcion);
+    public EscenaDialogo(String id, String descripcion, String fondo,
+                         List<Dialogo> dialogos) {
+        super(id, descripcion, fondo);
         this.dialogos = dialogos;
     }
 
@@ -38,16 +36,5 @@ public class EscenaDialogo extends EscenaBase {
 
     public void reiniciar() {
         indiceActual = 0;
-    }
-
-    // =============================
-    // NUEVO: SIGUIENTE ESCENA
-    // =============================
-    public void setSiguienteEscena(String id) {
-        this.siguienteEscenaId = id;
-    }
-
-    public String getSiguienteEscena() {
-        return siguienteEscenaId;
     }
 }

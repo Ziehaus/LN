@@ -1,70 +1,41 @@
 package Vista;
 
 import ControladorJuego.ControladorJuego;
-import Modelo.EscenaDecision;
-import Modelo.IEscena;
+import Modelo.Juego;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class VentanaPrincipal extends JFrame {
 
-    private final ControladorJuego controlador;
-    private final PanelEscena panel;
+    public VentanaPrincipal(Juego juego) {
 
-    private JButton btnContinuar;
+        // --- PANEL DONDE SE DIBUJA LA ESCENA ---
+        PanelEscena panelEscena = new PanelEscena();
 
-    public VentanaPrincipal(ControladorJuego controlador) {
-        this.controlador = controlador;
+        // --- CONTROLADOR ---
+        ControladorJuego controlador = new ControladorJuego(juego, panelEscena);
 
+        // --- CONFIGURACIÓN DE LA VENTANA ---
         setTitle("Visual Novel");
-        setSize(900, 600);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(1280, 720);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout());
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
 
-        panel = new PanelEscena();
-        add(panel, BorderLayout.CENTER);
+        add(panelEscena);
 
-        btnContinuar = new JButton("Continuar");
-        add(btnContinuar, BorderLayout.SOUTH);
+        setVisible(true);
 
-        // Acción del botón "Continuar"
-        btnContinuar.addActionListener(e -> controlador.avanzarDialogo());
-    }
+        // --- INICIAR JUEGO ---
+        controlador.iniciar();
 
-    // Método llamado por el Controlador para actualizar la vista
-    public void actualizar(IEscena escena) {
-
-        if (escena instanceof EscenaDecision decision) {
-
-            // Mostrar opciones
-            panel.mostrarOpciones(decision.getDescripcion(),
-                    decision.getOpciones().stream()
-                            .map(o -> o.getTextoVisible())
-                            .toList()
-            );
-
-            btnContinuar.setVisible(false);
-
-            // Asignar listeners a cada botón
-            for (int i = 0; i < decision.getOpciones().size(); i++) {
-
-                int indice = i;
-
-                panel.getBotonOpcion(i).addActionListener(e -> {
-                    controlador.seleccionarOpcion(indice);
-                });
+        // --- CLICK PARA AVANZAR DIÁLOGO ---
+        panelEscena.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                controlador.avanzarDialogo();
             }
-
-        } else {
-            // Mostrar diálogo
-            controlador.mostrarEscenaActual(); // usa tu implementación
-            btnContinuar.setVisible(true);
-        }
-    }
-
-    public PanelEscena getPanel() {
-        return panel;
+        });
     }
 }
+
