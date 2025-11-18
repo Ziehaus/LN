@@ -1,5 +1,7 @@
 package ControladorJuego;
+
 import Modelo.*;
+import Utils.AudioManager;
 import Vista.PanelEscena;
 
 public class ControladorJuego {
@@ -42,7 +44,11 @@ public class ControladorJuego {
 
         // Fondo
         panel.mostrarFondo(escena.getFondo());
-
+    
+    // 🔊 MUSICA
+    if (escena.getMusicaFondo() != null) {
+        AudioManager.reproducirMusica(escena.getMusicaFondo());
+    }
         // Texto, personaje, emoción
         panel.mostrarDialogo(
                 d.getPersonaje().getNombre(),
