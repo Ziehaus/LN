@@ -9,5 +9,6 @@ public class Main {
         Modelo.Juego juego = new Modelo.Juego(escenas, "escena_inicio");
 
         new Vista.VentanaPrincipal(juego);
+        
     }
 }
