@@ -1,6 +1,6 @@
 // CargadorEscenas.java
 package Modelo;
-
+import Utils.*;
 import java.util.*;
 
 public class CargadorEscenas {
@@ -26,6 +26,7 @@ public class CargadorEscenas {
                 "/img/fondos/fondo1.jpg",
                 dialogos
         );
+        
         escenaInicio.musicaFondo = "/audio/musica1.wav";
         escenaInicio.efectoSonido = "/audio/click.wav";
 
