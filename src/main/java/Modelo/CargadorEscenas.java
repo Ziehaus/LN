@@ -25,10 +25,9 @@ public class CargadorEscenas {
                 "Comienzo de la aventura",
                 "/img/fondos/fondo1.jpg",
                 dialogos
-        );
-        
-        escenaInicio.musicaFondo = "/audio/musica1.wav";
-        escenaInicio.efectoSonido = "/audio/click.wav";
+        );       
+        escenaInicio.musicaFondo = "/audio/musica/musica1.wav";
+        escenaInicio.efectoSonido = "/audio/musica/click.wav";
 
         escenaInicio.setSiguienteEscena("escena_decision");
 
