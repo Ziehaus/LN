@@ -79,7 +79,7 @@ public class VentanaInicio extends JFrame {
 
         // Reproducir música de menú (opcional)
         try {
-            AudioManager.reproducirMusica("/audio/musica/menu.wav");
+            AudioManager.reproducirMusica("/audio/musica/musica2.wav");
         } catch (Exception ignored) {}
 
         // Mostrar ventana

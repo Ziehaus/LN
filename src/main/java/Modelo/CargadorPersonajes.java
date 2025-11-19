@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class CargadorPersonajes {
 
-    public static Personaje cargarProtagonista() {
+    public static Personaje cargarMakoto() {
         Map<String, String> emo = new HashMap<>();
         emo.put("confundido", "/img/emociones/confundido.png");
         emo.put("pensando", "/img/emociones/pensando.png");
@@ -15,7 +15,7 @@ public class CargadorPersonajes {
         emo.put("neutral", "/img/emociones/neutral.png");
 
         return new Personaje(
-                "Protagonista",
+                "Makoto",
                 "/img/personajes/protagonista.png",
                 emo
         );
@@ -28,6 +28,7 @@ public class CargadorPersonajes {
                 new HashMap<>() // Faris no tiene emociones todavía
         );
     }
+    
 }
 
     

@@ -6,7 +6,7 @@ public class Main {
 
         Map<String, Modelo.IEscena> escenas = Modelo.CargadorEscenas.cargar();
 
-        Modelo.Juego juego = new Modelo.Juego(escenas, "escena_inicio");
+        Modelo.Juego juego = new Modelo.Juego(escenas, "escena_monologo_inicio");
 
         new Vista.VentanaInicio(juego).setVisible(true);
     }
